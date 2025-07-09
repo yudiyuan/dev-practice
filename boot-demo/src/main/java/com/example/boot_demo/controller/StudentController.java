@@ -1,12 +1,12 @@
 package com.example.boot_demo.controller;
 
 
+import com.example.boot_demo.Response;
 import com.example.boot_demo.dao.Student;
+import com.example.boot_demo.dto.StudentDTO;
 import com.example.boot_demo.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 //@RestController is a commonly used annotation in the Spring framework, specifically designed for creating RESTful web APIs. It tells Spring:
@@ -25,7 +25,11 @@ public class StudentController {
     @GetMapping("/student/{id}")
     //This annotation maps HTTP GET requests to the method below.
     //The URL path contains a variable part {id}, e.g. /student/123.
+
+
+   /*
     public Student getStudentById(@PathVariable long id){
+
         //This method is named getStudentById.
         //The @PathVariable annotation binds the value from the URL to the id parameter.
         //For example, if the request is /student/123, then id will be 123.
@@ -36,5 +40,28 @@ public class StudentController {
 
     }
 
+    */
 
-}
+    /*
+    public StudentDTO getStudentById(@PathVariable long id) {
+        return studentService.getStudentById(id);
+    }
+   */
+
+    /*
+    This method handles a request to retrieve student information by ID.
+    It uses the studentService.getStudentById(id) call to fetch the data, then wraps the result in a standardized success response using Response.newSuccess(...).
+    The response type is Response<StudentDTO>, indicating that the returned data is a StudentDTO object.
+     */
+    public Response<StudentDTO> getStudentById(@PathVariable long id){
+        return Response.newSuccess(studentService.getStudentById(id));
+    }
+
+    @PostMapping("/student")
+    public Response<Long> addNewStudent(@RequestBody StudentDTO studentDTO){
+        return Response.newSuccess(studentService.addNewStudent(studentDTO));
+    }
+
+
+
+    }
